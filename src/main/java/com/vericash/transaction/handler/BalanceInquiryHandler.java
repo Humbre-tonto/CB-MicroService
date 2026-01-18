@@ -2,6 +2,7 @@ package com.vericash.transaction.handler;
 
 import com.vericash.transaction.dto.TransactionRequest;
 import com.vericash.transaction.dto.TransactionResponse;
+import com.vericash.transaction.parser.XmlUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.util.Map;
@@ -61,8 +62,8 @@ public class BalanceInquiryHandler implements TransactionHandler<TransactionRequ
 
     @Override
     public TransactionResponse validateResponse(String response, TransactionRequest request) {
-        String availableBalanceStr = XmlParser.getValue(response, "AVAILABLEBALANCE");
-        String currencyCode = XmlParser.getValue(response, "BALANCECURRENCY");
+        String availableBalanceStr = com.vericash.transaction.parser.XmlUtils.getValue(response, "AVAILABLE_BALANCE");
+        String currencyCode = com.vericash.transaction.parser.XmlUtils.getValue(response, "BALANCE_CURRENCY");
         double availableBalanceDouble = Double.parseDouble(availableBalanceStr);
 
         // This would come from wallet info in a real scenario

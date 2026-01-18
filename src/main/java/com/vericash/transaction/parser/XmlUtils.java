@@ -1,4 +1,4 @@
-package com.vericash.transaction.handler;
+package com.vericash.transaction.parser;
 
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -7,7 +7,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
 
-public class XmlParser {
+public class XmlUtils {
 
     public static String getValue(String xml, String tagName) {
         try {

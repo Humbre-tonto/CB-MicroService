@@ -51,10 +51,25 @@ class TransactionControllerTest {
         assertThat(transactionResponse.status()).isEqualTo("ERROR");
     }
 
-
     @Test
     void shouldReturnSuccessForBalanceInquiry() {
         TransactionRequest request = new TransactionRequest("BALANCE_INQUIRY", Map.of("clientId", "98765"));
+        ResponseEntity<TransactionResponse> response = restTemplate.postForEntity(
+                "http://localhost:" + port + "/api/transactions/process",
+                request,
+                TransactionResponse.class
+        );
+        assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
+        assertThat(response.getBody().status()).isEqualTo("SUCCESS");
+    }
+
+    @Test
+    void shouldReturnSuccessForAccountTransfer() {
+        TransactionRequest request = new TransactionRequest("ACCOUNT_TRANSFER", Map.of(
+                "drAcctNum", "12345",
+                "crAcctNum", "67890",
+                "amount", "1000"
+        ));
         ResponseEntity<TransactionResponse> response = restTemplate.postForEntity(
                 "http://localhost:" + port + "/api/transactions/process",
                 request,

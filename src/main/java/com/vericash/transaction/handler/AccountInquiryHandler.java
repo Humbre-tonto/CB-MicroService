@@ -1,7 +1,9 @@
 package com.vericash.transaction.handler;
 
 import com.vericash.transaction.dto.TransactionRequest;
+import com.vericash.transaction.dto.TransactionRequest;
 import com.vericash.transaction.dto.TransactionResponse;
+import com.vericash.transaction.parser.XmlUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -105,7 +107,7 @@ public class AccountInquiryHandler implements TransactionHandler<TransactionRequ
         boolean isSme = (boolean) request.data().getOrDefault("isSme", false);
         boolean isFamily = (boolean) request.data().getOrDefault("isFamily", false);
 
-        String bankMsisdn = XmlParser.getValue(response, "CMPHONENO");
+        String bankMsisdn = com.vericash.transaction.parser.XmlUtils.getValue(response, "C_M_PHONE_NO");
         String senderMsisdn = (String) request.data().get("msisdn");
 
         if (bankMsisdn == null || bankMsisdn.trim().isEmpty()) {
@@ -118,8 +120,8 @@ public class AccountInquiryHandler implements TransactionHandler<TransactionRequ
             }
         }
 
-        String currency = XmlParser.getValue(response, "BALANCECURRENCY");
-        String schemeCode = XmlParser.getValue(response, "SCHMCODE");
+        String currency = XmlUtils.getValue(response, "BALANCE_CURRENCY");
+        String schemeCode = XmlUtils.getValue(response, "SCHM_CODE");
 
         if (isDomiciliaryCurrency(currency) && !isDomiciliaryAccount(currency, schemeCode)) {
             return new TransactionResponse("ERROR", "Invalid domiciliary account");
